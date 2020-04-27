@@ -1,5 +1,6 @@
 import React from "react";
-import { Switch, Route, Redirect } from "react-router-dom";
+import { connect } from "react-redux";
+import { Switch, Route, Redirect, withRouter } from "react-router-dom";
 import Home from "./HomeComponent";
 import Menu from "./MenuComponent";
 import DishDetail from "./DishDetailComponent";
@@ -7,27 +8,12 @@ import Contact from "./ContactComponent";
 
 import Header from "./HeaderComponent";
 import Footer from "./FooterComponent";
-import { DISHES } from "../shared/dishes";
-import { COMMENTS } from "../shared/comments";
-import { PROMOTIONS } from "../shared/promotions";
-import { LEADERS } from "../shared/leaders";
 
 import AboutUs from "./AboutComponent";
 
 class Main extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      dishes: DISHES,
-      comments: COMMENTS,
-      promotions: PROMOTIONS,
-      leaders: LEADERS,
-    };
-  }
-
   render() {
-    const { dishes, comments, promotions, leaders } = this.state;
+    const { dishes, comments, promotions, leaders } = this.props;
 
     const HomePage = () => {
       return (
@@ -77,5 +63,11 @@ class Main extends React.Component {
     );
   }
 }
+const mapStateToProps = (state) => ({
+  dishes: state.dishes,
+  comments: state.comments,
+  promotions: state.promotions,
+  leaders: state.leaders,
+});
 
-export default Main;
+export default withRouter(connect(mapStateToProps)(Main));
