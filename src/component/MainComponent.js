@@ -11,6 +11,8 @@ import Footer from "./FooterComponent";
 
 import AboutUs from "./AboutComponent";
 
+import { addComment } from "../redux/ActionCreators";
+
 class Main extends React.Component {
   render() {
     const { dishes, comments, promotions, leaders } = this.props;
@@ -36,6 +38,7 @@ class Main extends React.Component {
           comments={comments.filter(
             (comment) => comment.dishId === parseInt(match.params.dishId, 10)
           )}
+          addComment={this.props.addComment}
         />
       );
     };
@@ -70,4 +73,9 @@ const mapStateToProps = (state) => ({
   leaders: state.leaders,
 });
 
-export default withRouter(connect(mapStateToProps)(Main));
+const mapDispatchToProps = (dispatch) => ({
+  addComment: (dishId, rating, author, comment) =>
+    dispatch(addComment(dishId, rating, author, comment)),
+});
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Main));
